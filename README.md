@@ -84,8 +84,8 @@ EV_spatalk method consists of two components, wherein the first is to use the sc
   - RCTD, Seurat, SPOTlight, deconvSeq, stereoscope, cell2location, or other methods
 - __EV_SpaTalk allows to directly infer cell-cell communications skiping deconvolution (e.g., single-cell based ST data)__
 - __EV_SpaTalk can spatially visualize cell-type compositions/distributions (wiki) and cell-cell communications (wiki)__
-- __LRIs and pathways can be download at/[`database/`](https://github.com/ZJUFanLab/SpaTalk/tree/main/data)__
-- __Demo data can be download at /[`demo_data/`](https://github.com/ZJUFanLab/SpaTalk/tree/main/inst/extdata)__
+- LRIs and pathways can be download at/[`database/`](https://github.com/ZJUFanLab/SpaTalk/tree/main/data)__
+- Demo data can be download at /[`demo_data/`](https://github.com/ZJUFanLab/SpaTalk/tree/main/inst/extdata)__
 
 __Please refer to the [tutorial vignette](https://raw.githack.com/multitalk/awesome-cell-cell-communication/main/method/tutorial.html) with demo data processing steps. Detailed functions see the [document](https://raw.githack.com/ZJUFanLab/SpaTalk/main/vignettes/SpaTalk.pdf)__
 
