@@ -9,4 +9,3 @@ LR_venn.plot(EV_spatalk_object = EV.spatalk.results)
 \description{
 Venn plot of the LRs overlapping
 }
-\keyword{internal}

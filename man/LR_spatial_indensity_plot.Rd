@@ -9,4 +9,3 @@ LR_spatial_indensity_plot(EV_spatalk_object, s.LR.pair)
 \description{
 Spatial indensity_plot
 }
-\keyword{internal}

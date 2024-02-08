@@ -9,4 +9,3 @@ rawParse2(data, top_genes = 50, stats = "mean")
 \description{
 Screen EV-mediate interactome
 }
-\keyword{internal}

@@ -9,4 +9,3 @@ calculate_interaction_strength(L, R, pseudo_count = 0.01)
 \description{
 Calculate LR pseudo_count
 }
-\keyword{internal}

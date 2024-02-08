@@ -9,4 +9,3 @@ process_spot(spot_id, lr_list, lr_ids)
 \description{
 Storage the LR interaction score
 }
-\keyword{internal}

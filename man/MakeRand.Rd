@@ -9,4 +9,3 @@ MakeRand(srt, db, assay = NULL, nrand = 3, nbin = 5)
 \description{
 Make equivalent random modules
 }
-\keyword{internal}

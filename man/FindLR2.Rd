@@ -9,4 +9,3 @@ FindLR2(data_1, data_2 = NULL, datatype, comm_type, database = NULL)
 \description{
 Find LR recurrented in sender spot
 }
-\keyword{internal}

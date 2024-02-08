@@ -9,4 +9,3 @@ increment_frequency(df, frequencies)
 \description{
 Include the non-zero LR
 }
-\keyword{internal}

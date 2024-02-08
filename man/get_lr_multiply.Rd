@@ -9,4 +9,3 @@ get_lr_multiply(lr, lr_list)
 \description{
 Calculate LR mean multiply
 }
-\keyword{internal}

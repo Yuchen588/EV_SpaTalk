@@ -9,4 +9,3 @@ MakeSTRand(st)
 \description{
 ST random and scale
 }
-\keyword{internal}

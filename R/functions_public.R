@@ -2,7 +2,7 @@
 
 #' Make equivalent random modules
 #'
-#' @keywords internal
+#' @export
 MakeRand = function(
     srt,
     db,
@@ -168,7 +168,7 @@ GeneToEnrichment = function(
 
 #' Find neighbors
 #'
-#' @keywords internal
+#' @export
 
 FindSTNeighbors = function(
     st,
@@ -190,7 +190,7 @@ FindSTNeighbors = function(
 
 #' ST random and scale
 #'
-#' @keywords internal
+#' @export
 MakeSTRand = function(
     st
 ){
@@ -205,7 +205,7 @@ MakeSTRand = function(
 
 #' Screen EV-mediate interactome
 #'
-#' @keywords internal
+#' @export
 rawParse2 <- function(data, top_genes = 50, stats = "mean")
 {
   res = NULL
@@ -242,7 +242,7 @@ rawParse2 <- function(data, top_genes = 50, stats = "mean")
 
 #' Find LR recurrented in sender spot
 #'
-#' @keywords internal
+#' @export
 FindLR2 <- function(data_1, data_2 = NULL, datatype, comm_type, database = NULL)
 {
   if (is.null(database)) {
@@ -340,7 +340,7 @@ FindLR2 <- function(data_1, data_2 = NULL, datatype, comm_type, database = NULL)
 
 #' Calculate LR mean multiply
 #'
-#' @keywords internal
+#' @export
 get_lr_multiply <- function(lr, lr_list) {
   sapply(lr_list, function(df) {
     if (any(df$interaction == lr)) {
@@ -353,7 +353,7 @@ get_lr_multiply <- function(lr, lr_list) {
 
 #' Calculate LR pseudo_count
 #'
-#' @keywords internal
+#' @export
 calculate_interaction_strength <- function(L, R, pseudo_count = 0.01) {
   # 保证log2转换后不会出现负数
   pseudo_count_adjusted <- max(pseudo_count, 1)
@@ -364,7 +364,7 @@ calculate_interaction_strength <- function(L, R, pseudo_count = 0.01) {
 #这步function可以放在functions_public.R
 #' Include the non-zero LR
 #'
-#' @keywords internal
+#' @export
 increment_frequency <- function(df, frequencies) {
   # Find the unique interactions with non-zero 'multiply' values
   unique_interactions <- unique(df$interaction[df$multiply > 0])
@@ -377,7 +377,7 @@ increment_frequency <- function(df, frequencies) {
 
 #' Storage the LR interaction score
 #'
-#' @keywords internal
+#' @export
 process_spot <- function(spot_id, lr_list, lr_ids) {
   spot_vector <- numeric(length(lr_ids)) # 初始化一个向量来存储multiply值
   names(spot_vector) <- lr_ids
@@ -396,7 +396,7 @@ process_spot <- function(spot_id, lr_list, lr_ids) {
 #作图
 #' Spatial indensity_plot
 #'
-#' @keywords internal
+#' @export
 LR_spatial_indensity_plot <- function(EV_spatalk_object, s.LR.pair) {
   # 将特征字符串分割为配体和受体
   st.seurat.obj <- EV_spatalk_object@st.seurat.obj
@@ -434,7 +434,7 @@ LR_spatial_indensity_plot <- function(EV_spatalk_object, s.LR.pair) {
 
 #' Pie plot of the statistical results of EV-release related or distance related LRs
 #'
-#' @keywords internal
+#' @export
 LR_pie.plot <- function(EV_spatalk_object=EV.spatalk.results){
   distance.correlation_results_df <- EV.spatalk.results@Distance.corr.LR.results
   EVrelease.correlation_results_df <- EV.spatalk.results@EVrelease.corr.LR.results
@@ -480,7 +480,7 @@ LR_pie.plot <- function(EV_spatalk_object=EV.spatalk.results){
 #venn plot
 #' Venn plot of the LRs overlapping
 #'
-#' @keywords internal
+#' @export
 LR_venn.plot <- function(EV_spatalk_object=EV.spatalk.results){
   distance.correlation_results_df <- EV.spatalk.results@Distance.corr.LR.results
   EVrelease.correlation_results_df <- EV.spatalk.results@EVrelease.corr.LR.results
@@ -527,7 +527,7 @@ LR_venn.plot <- function(EV_spatalk_object=EV.spatalk.results){
 #circlize
 #' circos plot of candidate LRs
 #'
-#' @keywords internal
+#' @export
 LR_circos.plot <- function(EV_spatalk_object=EV.spatalk.results, select.LR.id=select.LR.id, specific.LR.id="CD96_PVR"){
   set.seed(2)
 LR.freq.res <- EV_spatalk_object@LR.in.spot.frequency_table

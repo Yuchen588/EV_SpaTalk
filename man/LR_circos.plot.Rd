@@ -13,4 +13,3 @@ LR_circos.plot(
 \description{
 circos plot of candidate LRs
 }
-\keyword{internal}

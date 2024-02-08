@@ -9,4 +9,3 @@ FindSTNeighbors(st, d_max, d_min = 0)
 \description{
 Find neighbors
 }
-\keyword{internal}

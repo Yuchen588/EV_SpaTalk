@@ -9,4 +9,3 @@ LR_pie.plot(EV_spatalk_object = EV.spatalk.results)
 \description{
 Pie plot of the statistical results of EV-release related or distance related LRs
 }
-\keyword{internal}
