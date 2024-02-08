@@ -18,7 +18,7 @@ The EV_SpaTalkdb is a curated database containing 2,997 EV-specific ligand-recep
 
 ```
 > install.packages(pkgs = 'devtools')
-#Please make sure the following packages were installed (Seurat; tidyverse; future; nnls; parallel; Matrix; tidyr; purr; broom; parallel; Matrix; RobustRankAggreg; gridExtra; VennDiagram; ggplot2)
+#Please make sure the following packages were installed (Seurat, tidyverse, future, nnls, parallel, Matrix, parallel, Matrix, VennDiagram, ggplot2, rstatix, dplyr, tidyr, purrr, broom, RobustRankAggreg, gridExtra, circlize)
 ```
 
 - then install EV_SpaTalk
