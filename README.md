@@ -24,10 +24,10 @@ The EV_SpaTalkdb is a curated database containing 2,997 EV-specific ligand-recep
 - then install EV_SpaTalk
 
 ```
-> devtools::install_github(Yuchen588/EV_SpaTalk)
+> devtools::install_github("Yuchen588/EV_SpaTalk@master", force = T)
 
 # or download the repository as ZIP
-> devtools::install_local("/path/to/SpaTalk-main.zip")
+> devtools::install_local("/path/to/EVSpaTalk.tar.gz")
 ```
 
 # Usage and steps:
