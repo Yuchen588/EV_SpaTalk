@@ -327,8 +327,16 @@ st_deco_anno <- function(st = st, sc = sc, EV_spatalk_object=EV_spatalk_object, 
 }
 
 
-
-#
+#' find near niche from ST data
+#'
+#' This function takes two numbers and returns their sum.
+#'
+#' @param EV_spatalk_object the EV_SpaTalk S4 object.
+#' @param sc.anno.id the character of cell type annotation in paired scRNA-seq data.
+#' @return EV_spatalk_object
+#' @examples
+#' add(1, 1)
+#' @export
 find_niche_LR <- function(EV_spatalk_object=EV.spatalk.results, prox="inverse", mc.cores=30, s.cell.type = c("Malignant", "T_cells"), comm_list=comm_list, datatype='mean count', method="pseudocount"){
   numCores = mc.cores
   st <- EV_spatalk_object@st.seurat.obj
