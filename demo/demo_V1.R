@@ -243,6 +243,9 @@ library(RobustRankAggreg)
 library(gridExtra)
 library(circlize)
 #创建create_EV.SpaTalk.obj对象
+if ("EV_spatalk" %in% getClassDef()) {
+  removeClass("EV_spatalk")
+}
 create_EV.SpaTalk.obj()
 
 EV_spatalk_object <- readRDS(file = "/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/source.data/EV_spatalk_object.rds")
