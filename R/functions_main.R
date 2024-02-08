@@ -1,3 +1,63 @@
+#' create EV_SpaTalk S4 object
+#'
+#' @export
+#' @examples
+#' create_EV.SpaTalk.obj()
+create_EV.SpaTalk.obj <- function() {
+  # 加载所需的包
+  library(Seurat)
+  library(tidyverse)
+  library(future)
+  library(nnls)
+  library(parallel)
+  library(Matrix)
+  library(VennDiagram)
+  library(ggplot2)
+  library(rstatix)
+  library(dplyr)
+  library(tidyr)
+  library(purrr)
+  library(broom)
+  library(RobustRankAggreg)
+  library(gridExtra)
+  library(circlize)
+
+  # 定义 EV_spatalk 类
+  setClass("EV_spatalk",
+           slots = c(database = "data.frame",
+                     all.cell.type = "character",
+                     s.cell.type = "character",
+                     Sender.celltype.id = "character",
+                     Receiver.celltype.id = "character",
+                     Sender.spot.id = "character",
+                     Receiver.spot.id = "character",
+                     Distance.corr.LR.results = "data.frame",
+                     EVrelease.corr.LR.results = "data.frame",
+                     inter.LR.results = "list",
+                     all.can.LR.id = "character",
+                     st.seurat.obj = "Seurat",
+                     sc.seurat.obj = "Seurat",
+                     all.spot.module.score = "data.frame",
+                     distance.results = "data.frame",
+                     neighborhood.results = "list",
+                     metadata = "data.frame",
+                     interaction_df = "data.frame",
+                     interaction_df_raw.indensity = "data.frame",
+                     modules = "array",
+                     db_mac = "list",
+                     db_tcell = "list",
+                     nnls_bin = "character",
+                     nearest.spot.list = "list",
+                     all.nitch.LR.talk.list = "list",
+                     all.spot.lr_interaction = "list",
+                     sender.spot.lr_interaction = "list",
+                     spot.LR.freq.results = "data.frame",
+                     LR.in.spot.frequency_table = "data.frame",
+                     LR.in.spot.RRA.results = "data.frame",
+                     EV_spatalk_stat_results = "data.frame"))
+}
+
+
 #' Decompose cell types in spatial transcriptomics data
 #'
 #' Identify the cellular composition for single-cell or spot-based spatial transcriptomics data with non-negative regression.
