@@ -1,0 +1,31 @@
+Package: EVSpaTalk
+Title: The R package to infer EV-mediated cell-cell interaction from spatially resolved transcriptomic data
+Version: 0.0.0.9000
+Authors@R: 
+    person("Yuchen Li", "Jia Hu", "Shenglin Huang", "ycli16@stanford.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: EV_SpaTalk, an innovative framework designed to infer the significance of ligand-receptor pairs in EV-mediated cell-cell crosstalk networks within tumor microenvironments. This framework relies on EV budding power, a key cellular state in ESCRT+ cells, and the spatial interoperable extrapolation of EV-specific ligand-receptor pairs. EV_SpaTalk models the ligand-receptor signaling network between spatially adjacent sender-receiver niches, utilizing a non-negative linear model and spatial distance mapping to decompose cell components from spatially resolved transcriptomics (ST) and paired single-cell RNA-seq data. This framework efficiently deciphers EV-driven ligand-receptor interactions across various cell types, offering an invaluable tool for researchers to investigate intricate EV-mediated spatial cell dynamics in tissue, thereby significantly enhancing our understanding of EVs' roles in cellular communication and tumor biology.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+    Seurat,
+    tidyverse,
+    future,
+    nnls,
+    parallel,
+    Matrix,
+    parallel,
+    Matrix,
+    VennDiagram,
+    ggplot2,
+    rstatix,
+    dplyr,
+    tidyr,
+    purrr,
+    broom,
+    RobustRankAggreg,
+    gridExtra,
+    circlize
