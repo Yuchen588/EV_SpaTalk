@@ -1,0 +1,49 @@
+cd /home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/Rpackage/EVSpaTalk
+#然后，初始化该目录作为Git仓库：
+
+git init
+#添加所有更改到Git暂存区：
+
+#sh
+#Copy code
+git add .
+#提交您的更改到本地仓库：
+
+#sh
+#Copy code
+git commit -m "Initial R package commit"
+#将远程仓库origin设置为您的GitHub仓库（如果尚未设置）：
+
+#sh
+#Copy code
+#git remote add origin git@github.com:Yuchen588/EV_SpaTalk.git
+#或者，如果远程仓库origin已存在，而您需要更新URL，则使用：
+
+#sh
+#Copy code
+git remote set-url origin git@github.com:Yuchen588/EV_SpaTalk.git
+#启动ssh-agent并添加您的私钥：
+
+#创建密钥
+#ssh-keygen -t rsa -b 4096 -C "yuchenli588@gmail.com" -f "/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/Rpackage/key/id_rsa"
+#查看公钥
+cat /home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/github/id_rsa.pub
+#添加私钥
+eval "$(ssh-agent -s)"
+ssh-add /home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/Rpackage/key/id_rsa
+
+
+
+#推送您的更改到GitHub：
+
+#sh
+#Copy code
+git pull origin master
+git push -u origin master
+
+
+#######
+git add .
+git commit -m "Your commit message"
+git pull origin master
+git push origin master
