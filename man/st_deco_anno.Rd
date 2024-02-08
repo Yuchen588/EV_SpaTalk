@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_main.R
 \name{st_deco_anno}
 \alias{st_deco_anno}
-\title{Make cell type deconvolution from ST data}
+\title{Decompose Cell Types in Spatial Transcriptomics Data}
 \usage{
 st_deco_anno(
   st = st,
@@ -20,16 +20,16 @@ st_deco_anno(
 )
 }
 \arguments{
-\item{EV_spatalk_object}{the EV_SpaTalk S4 object.}
+\item{EV_spatalk_object}{EV_spatalk_object An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.}
 
-\item{sc.anno.id}{the character of cell type annotation in paired scRNA-seq data.}
+\item{sc.anno.id}{A character containing the cell type of the reference single-cell RNA-seq data.}
 }
 \value{
-EV_spatalk_object
+An updated EV_spatalk_object containing the results of the decomposition analysis, including cell type distributions and spatial distances between identified cell types.
 }
 \description{
-This function takes two numbers and returns their sum.
+Identify the cellular composition for single-cell or spot-based spatial transcriptomics data with non-negative regression.
 }
 \examples{
-add(1, 1)
+EV.spatalk.results <- st_deco_anno(st = st, sc = sc, nrand = 2, EV_spatalk_object=EV_spatalk_object, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype)
 }

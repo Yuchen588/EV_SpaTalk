@@ -1,13 +1,12 @@
-#' Make cell type deconvolution from ST data
+#' Decompose Cell Types in Spatial Transcriptomics Data
 #'
-#' This function takes two numbers and returns their sum.
+#' Identify the cellular composition for single-cell or spot-based spatial transcriptomics data with non-negative regression.
 #'
-#' @param EV_spatalk_object the EV_SpaTalk S4 object.
-#' @param sc.anno.id the character of cell type annotation in paired scRNA-seq data.
-#' @return EV_spatalk_object
+#' @param EV_spatalk_object EV_spatalk_object An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.
+#' @param sc.anno.id A character containing the cell type of the reference single-cell RNA-seq data.
+#' @return An updated EV_spatalk_object containing the results of the decomposition analysis, including cell type distributions and spatial distances between identified cell types.
 #' @examples
-#' add(1, 1)
-#' @export
+#' EV.spatalk.results <- st_deco_anno(st = st, sc = sc, nrand = 2, EV_spatalk_object=EV_spatalk_object, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype)
 st_deco_anno <- function(st = st, sc = sc, EV_spatalk_object=EV_spatalk_object, nrand = 2, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype, pred_bin_cutoff=0.9, coef_bin_cutoff=2){
   ncores = mc.cores
   EV_spatalk_object@all.cell.type <- select.celltype
