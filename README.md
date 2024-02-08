@@ -72,6 +72,9 @@ EV_spatalk method consists of two components, wherein the first is to use the sc
 >LR_circlized_plot(pending...)
 >LR_pie.plot(EV_spatalk_object=EV.spatalk.results)
 >LR_venn.plot(EV_spatalk_object=EV.spatalk.results)
+>select.LR.id <- c(EV.spatalk.results@inter.LR.results$common_positive_LR, EV.spatalk.results@inter.LR.results$common_negative_LR)
+>LR_circos.plot(EV_spatalk_object = EV.spatalk.results, select.LR.id=select.LR.id, specific.LR.id="CD96_PVR")
+>circos.clear()
 ```
 
 # Note
