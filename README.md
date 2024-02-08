@@ -5,7 +5,7 @@
 
 <img src='https://github.com/ZJUFanLab/SpaTalk/blob/main/img/SpaTalk.png'>
 
-[Extracellular vesicles (EVs)](https://pubmed.ncbi.nlm.nih.gov/30914410/), produced by all eukaryotic cells, are essential for intercellular communication. Beyond transporting internal cargo, EVs transfer specific ligands from donor to receptors on recipient cells, playing a crucial role in orchestrating intercellular dynamics and modulating the biological landscape of human ecosystem. However, inferring EV-driven tissue-cellular interactome presents a challenge. To address this, we introduce EV_SpaTalk, an innovative framework designed to infer the significance of [ligand-receptor pairs](https://pubmed.ncbi.nlm.nih.gov/34331449/) in EV-mediated cell-cell crosstalk networks within tumor microenvironments. This framework relies on EV budding power, a key cellular state in [ESCRT+ cells](https://pubmed.ncbi.nlm.nih.gov/31705132/), and the spatial interoperable extrapolation of EV-specific ligand-receptor pairs. EV_SpaTalk models the ligand-receptor signaling network between spatially adjacent sender-receiver niches, utilizing a non-negative linear model and spatial distance mapping to decompose cell components from [spatially resolved transcriptomics (ST)](https://pubmed.ncbi.nlm.nih.gov/31932730/) and paired single-cell RNA-seq data. This framework efficiently deciphers EV-driven ligand-receptor interactions across various cell types, offering an invaluable tool for researchers to investigate intricate EV-mediated spatial cell dynamics in tissue, thereby significantly enhancing our understanding of EVs' roles in cellular communication and tumor biology.
+[Extracellular vesicles (EVs)](https://pubmed.ncbi.nlm.nih.gov/30914410/), produced by all eukaryotic cells, are indispensable for intercellular communication. Beyond transporting internal cargo, EVs convey specific ligands from donor cells to receptors on recipient cells, playing a pivotal role in orchestrating intercellular dynamics and modulating the biological landscape of the human ecosystem. However, deducing the EV-driven tissue-cellular interactome presents a challenge. To address this, we introduce EV_SpaTalk, an innovative framework designed to infer the significance of [ligand-receptor pairs](https://pubmed.ncbi.nlm.nih.gov/34331449/) in EV-mediated cell-cell crosstalk networks within tumor microenvironments. This framework is founded on the concept of EV budding power, a critical cellular state in [ESCRT+ cells](https://pubmed.ncbi.nlm.nih.gov/31705132/), and employs the spatial interoperable extrapolation of EV-specific ligand-receptor pairs. EV_SpaTalk models the ligand-receptor signaling network between spatially adjacent sender-receiver niches, utilizing a non-negative linear model and spatial distance mapping to decompose cellular components from [spatially resolved transcriptomics (ST)](https://pubmed.ncbi.nlm.nih.gov/31932730/) and paired single-cell RNA-seq data (SC). This framework effectively deciphers EV-driven ligand-receptor interactions across various cell types, providing researchers with an invaluable tool to investigate intricate EV-mediated spatial cell dynamics in tissues, thereby significantly enhancing our understanding of EVs' roles in cellular communication and tumor biology.
 
 ## EV_SpaTalkdb
 The EV_SpaTalkdb is a curated database containing 2,997 EV-specific ligand-receptor interaction (LRI) pairs, derived from [cellchatdb] (http://www.cellchat.org/cellchatdb/) and classified into three categories: Cell-Cell Contact, ECM-Receptor, and Secreted Signaling. Validation of these pairs is backed by extensive EV MASS data from [EVpedia] (https://evpedia.info/evpedia2_xe/) and [EV-related studies] (https://pubmed.ncbi.nlm.nih.gov/35918900/; https://pubmed.ncbi.nlm.nih.gov/34817906/), encompassing global EV and EV surface membrane proteomics covers both small (exosomes) and large (e.g. macrovesicles) EVs. Researchers can access the database via the 'EV_spatalk_object@database' command in R, post-loading the EV_spatalk_object, an S4 object that integrates results from EV_SpaTalk workflow. We encourage the scientific community to enhance the EV_SpaTalkdb by contributing verified EV-related LR pairs, thus promoting a cooperative environment for EV research advancements.
@@ -30,9 +30,48 @@ The EV_SpaTalkdb is a curated database containing 2,997 EV-specific ligand-recep
 > devtools::install_local("/path/to/EVSpaTalk.tar.gz")
 ```
 
+# Create EV_SpaTalk S4 object
+```
+>setClass("EV_spatalk",
+         slots = c(database = "data.frame",
+                   all.cell.type = "character",
+                   s.cell.type = "character",
+                   Sender.celltype.id = "character",
+                   Receiver.celltype.id = "character",
+                   Sender.spot.id = "character",
+                   Receiver.spot.id = "character",
+                   Distance.corr.LR.results = "data.frame",
+                   EVrelease.corr.LR.results = "data.frame",
+                   inter.LR.results = "list",
+                   all.can.LR.id="character",
+                   st.seurat.obj = "Seurat",
+                   sc.seurat.obj = "Seurat",
+                   all.spot.module.score = "data.frame",
+                   distance.results = "data.frame",
+                   neighborhood.results = "list",
+                   metadata = "data.frame",
+                   interaction_df = "data.frame",
+                   interaction_df_raw.indensity = "data.frame",
+                   modules="array",
+                   db_mac="list",
+                   db_tcell="list",
+                   nnls_bin="character",
+                   nearest.spot.list = "list",
+                   all.nitch.LR.talk.list="list",
+                   all.spot.lr_interaction="list",
+                   sender.spot.lr_interaction="list",
+                   spot.LR.freq.results="data.frame",
+                   LR.in.spot.frequency_table="data.frame",
+                   LR.in.spot.RRA.results="data.frame",
+                   EV_spatalk_stat_results="data.frame"))
+```
+
 # Usage and steps:
 EV_spatalk method consists of two components, wherein the first is to use the scRNA-seq profile dissect the cell-type composition of ST data and the second is to infer the spatially resolved EV-mediated cell-cell communications over the decomposed single-cell ST data. Classification and description of EV_spatalk functions are shown in the [tutorial](https://evpedia.info/evpedia2_xe/).
-
+- ### Load the demo EV_SpaTalk S4 object
+```
+> EV_spatalk_object <- readRDS(file = "/path/to/EV_spatalk_object.rds")
+```
 - ### Cell-type deconvolution to reconstruct single-cell ST atlas with known cell types from scRNA-seq data
 ```
 # st_data: A standard Seurat object of ST data (finished raw clustering and dimension reduction)
