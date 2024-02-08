@@ -30,6 +30,42 @@ The EV_SpaTalkdb is a curated database containing 2,997 EV-specific ligand-recep
 > devtools::install_local("/path/to/EVSpaTalk.tar.gz")
 ```
 
+# Create EV_SpaTalk S4 object
+```
+>setClass("EV_spatalk",
+         slots = c(database = "data.frame",
+                   all.cell.type = "character",
+                   s.cell.type = "character",
+                   Sender.celltype.id = "character",
+                   Receiver.celltype.id = "character",
+                   Sender.spot.id = "character",
+                   Receiver.spot.id = "character",
+                   Distance.corr.LR.results = "data.frame",
+                   EVrelease.corr.LR.results = "data.frame",
+                   inter.LR.results = "list",
+                   all.can.LR.id="character",
+                   st.seurat.obj = "Seurat",
+                   sc.seurat.obj = "Seurat",
+                   all.spot.module.score = "data.frame",
+                   distance.results = "data.frame",
+                   neighborhood.results = "list",
+                   metadata = "data.frame",
+                   interaction_df = "data.frame",
+                   interaction_df_raw.indensity = "data.frame",
+                   modules="array",
+                   db_mac="list",
+                   db_tcell="list",
+                   nnls_bin="character",
+                   nearest.spot.list = "list",
+                   all.nitch.LR.talk.list="list",
+                   all.spot.lr_interaction="list",
+                   sender.spot.lr_interaction="list",
+                   spot.LR.freq.results="data.frame",
+                   LR.in.spot.frequency_table="data.frame",
+                   LR.in.spot.RRA.results="data.frame",
+                   EV_spatalk_stat_results="data.frame"))
+```
+
 # Usage and steps:
 EV_spatalk method consists of two components, wherein the first is to use the scRNA-seq profile dissect the cell-type composition of ST data and the second is to infer the spatially resolved EV-mediated cell-cell communications over the decomposed single-cell ST data. Classification and description of EV_spatalk functions are shown in the [tutorial](https://evpedia.info/evpedia2_xe/).
 
