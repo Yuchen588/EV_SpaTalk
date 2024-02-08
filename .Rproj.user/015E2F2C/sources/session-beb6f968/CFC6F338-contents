@@ -1,0 +1,222 @@
+setwd("/home/lyc/LUAD/rawdata/LUAD.test.run")
+data.mcmicro <- read.csv(file = "/home/lyc/LUAD/rawdata/LUAD.test.run/quantification/comb--unmicst_cell.csv", header = T, as.is = T)
+#data.akoya <- read.csv(file = "/home/lyc/LUAD/rawdata/LUAD.test.run/quantification/LN7910_20_008_11022020_reg001_compensated.csv", header = T, as.is = T)
+library(Seurat)
+options(Seurat.object.assay.version = "v5")
+library(future)
+plan("multisession", workers = 20)
+library(ggplot2)
+library(ggrepel)
+#install.packages('devtools')
+#devtools::install_github('junjunlab/scRNAtoolVis')
+library(scRNAtoolVis)
+
+count.data <- data.mcmicro[,c("cyc002_ch002_panCK", "cyc003_ch002_CD20", "cyc004_ch002_CD138", "cyc005_ch002_aSMA", "cyc006_ch002_CD31", "cyc007_ch002_MMP9", "cyc002_ch003_CD8", "cyc003_ch003_CD163", "cyc004_ch003_FAP", "cyc005_ch003_CD66b", "cyc006_ch003_Ki67", "cyc007_ch003_GZMB", "cyc002_ch004_CD3e", "cyc003_ch004_CD4", "cyc004_ch004_CD11c", "cyc005_ch004_CD68", "cyc006_ch004_Col_IV", "cyc007_ch004_PD_1", "cyc008_ch004_PD_L1", "cyc009_ch004_LAG3", "cyc010_ch004_FoxP3")]
+rownames(count.data) <- paste("cell", data.mcmicro$CellID, sep = "_")
+colnames(count.data) <- substr(colnames(count.data), 14, nchar(colnames(count.data)))
+count.data <- as.matrix(t(count.data))
+#
+options(future.seed = TRUE)
+meta.data <- data.mcmicro[,c(46:ncol(data.mcmicro))]
+rownames(meta.data) <-  colnames(count.data)
+
+#看下分布
+ggplot()+
+  geom_point(data=meta.data, aes(x=meta.data$X_centroid, y=-meta.data$Y_centroid), size=0.01)+
+  theme_classic()
+
+
+#
+codex.obj <- CreateSeuratObject(count=count, assay = "RNA", project = "LUAD.test.run", meta.data = meta.data)
+codex.obj <- NormalizeData(object = codex.obj, normalization.method = "CLR", margin = 2)#一般选2
+codex.obj <- ScaleData(codex.obj)
+VariableFeatures(codex.obj) <- rownames(codex.obj)  # since the panel is small, treat all features as variable.
+codex.obj <- RunPCA(object = codex.obj, npcs = 20, verbose = FALSE, seed.use = NULL, approx=FALSE)
+codex.obj <- RunUMAP(object = codex.obj, dims = 1:20, verbose = FALSE)
+codex.obj <- FindNeighbors(object = codex.obj, dims = 1:20, verbose = FALSE)
+codex.obj <- FindClusters(object = codex.obj, verbose = FALSE, resolution = 0.4)
+Idents(codex.obj) <- "seurat_clusters"
+diff.marker.list <- FindAllMarkers(codex.obj, only.pos = F, logfc.threshold = 0.1)
+write.csv(diff.marker.list, file="/home/lyc/LUAD/CODEX.res-20231030/diff.marker.list.csv")
+DimPlot(codex.obj, label = TRUE, label.box = TRUE, raster = T) + NoLegend()
+#空间看一下
+g.data <- codex.obj@meta.data
+g.data <- g.data[g.data$RNA_snn_res.0.4==13,]
+ggplot()+
+  geom_point(data=g.data, aes(x=X_centroid, y=-Y_centroid, size=Area, color=seurat_clusters))+
+  #scale_color_manual(values = color.value.anno)+
+  scale_size(range = 0, 0.5)+
+  theme_classic()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#annotation
+cell.anno <- as.character(codex.obj@meta.data$seurat_clusters)
+cell.anno[cell.anno=="0"] <- "Malig_1"#
+cell.anno[cell.anno=="1"] <- "Malig_2"
+cell.anno[cell.anno=="2"] <- "Malig_3"
+cell.anno[cell.anno=="3"] <- "CD4_Tcell"
+cell.anno[cell.anno=="4"] <- "Fibroblast"
+cell.anno[cell.anno=="5"] <- "Malig_4"
+cell.anno[cell.anno=="6"] <- "Macro_M2"
+cell.anno[cell.anno=="7"] <- "CD8_Tcell"
+cell.anno[cell.anno=="8"] <- "Norm_Epi"
+cell.anno[cell.anno=="9"] <- "Neutro"
+cell.anno[cell.anno=="10"] <- "Prolif_cell"
+cell.anno[cell.anno=="11"] <- "Endo"
+cell.anno[cell.anno=="12"] <- "Treg"
+cell.anno[cell.anno=="13"] <- "Extra_matrix"
+cell.anno[cell.anno=="14"] <- "Neutro"
+cell.anno[cell.anno=="15"] <- "Plasma_cell"
+cell.anno[cell.anno=="16"] <- "DC"
+cell.anno[cell.anno=="17"] <- "Neutro"
+cell.anno[cell.anno=="18"] <- "Cytotoxic_Tcell"
+
+cell.anno[cell.anno=="Malig_1"] <- "Malig"
+cell.anno[cell.anno=="Malig_2"] <- "Malig"
+cell.anno[cell.anno=="Malig_3"] <- "Malig"
+cell.anno[cell.anno=="Malig_4"] <- "Malig"
+
+
+codex.obj@meta.data$cell.anno <- cell.anno
+#diff.anno
+cell.anno <- as.character(diff.marker.list$cluster)
+cell.anno[cell.anno=="0"] <- "Malig_1"#
+cell.anno[cell.anno=="1"] <- "Malig_2"
+cell.anno[cell.anno=="2"] <- "Malig_3"
+cell.anno[cell.anno=="3"] <- "CD4_Tcell"
+cell.anno[cell.anno=="4"] <- "Fibroblast"
+cell.anno[cell.anno=="5"] <- "Malig_4"
+cell.anno[cell.anno=="6"] <- "Macro_M2"
+cell.anno[cell.anno=="7"] <- "CD8_Tcell"
+cell.anno[cell.anno=="8"] <- "Norm_Epi"
+cell.anno[cell.anno=="9"] <- "Neutro"
+cell.anno[cell.anno=="10"] <- "Prolif_cell"
+cell.anno[cell.anno=="11"] <- "Endo"
+cell.anno[cell.anno=="12"] <- "Treg"
+cell.anno[cell.anno=="13"] <- "Extra_matrix"
+cell.anno[cell.anno=="14"] <- "Neutro"
+cell.anno[cell.anno=="15"] <- "Plasma_cell"
+cell.anno[cell.anno=="16"] <- "DC"
+cell.anno[cell.anno=="17"] <- "Neutro"
+cell.anno[cell.anno=="18"] <- "Cytotoxic_Tcell"
+
+cell.anno[cell.anno=="Malig_1"] <- "Malig"
+cell.anno[cell.anno=="Malig_2"] <- "Malig"
+cell.anno[cell.anno=="Malig_3"] <- "Malig"
+cell.anno[cell.anno=="Malig_4"] <- "Malig"
+
+diff.marker.list$cell.anno <- cell.anno
+write.csv(diff.marker.list, file="diff.marker.list.csv")
+
+
+#
+setwd("/home/lyc/LUAD/CODEX.res")
+color.value.anno <- c(Malig="gray90", "CD4_Tcell"="#AAF400", "Fibroblast"="#FFF200", "Macro_M2"="#85660D", "CD8_Tcell"="#3283FE", "Norm_Epi"="#6D16F2", "Neutro"="#CD3278", "Prolif_cell"="#808080", "Endo"="red", "Treg"="#7ED7D1", "Extra_matrix"="#E3DC5B", "Neutro"="#CD3278", "Plasma_cell"="#FFB90F", "DC"="#1C7F93", "Neutro"="#CD3278", "Cytotoxic_Tcell"="#104E8B")
+
+Idents(codex.obj) <- "cell.anno"
+umap.data <- Embeddings(codex.obj, reduction = "umap")
+pdf("cell.anno.umap.plot.pdf", width = 8, height = 8)
+DimPlot(codex.obj, label = TRUE, label.box = T, alpha = 0.9, raster = T, repel = T, label.color="black", cols = color.value.anno, label.size = 5) +  
+  scale_color_manual(values = color.value.anno)+
+  NoLegend()
+
+dev.off()
+
+pdf("cell.anno.two.dim.plot.pdf", width = 11.31, height = 9.73)
+g.data <- codex.obj@meta.data
+ggplot()+
+  geom_point(data=g.data, aes(x=X_centroid, y=-Y_centroid, size=Area, color=cell.anno, alpha=-Area))+
+  scale_color_manual(values = color.value.anno)+
+  scale_size(range = 0, 1)+
+  theme_classic()+
+  guides(color=guide_legend(override.aes=list(size=5)))
+dev.off()
+write.csv(codex.obj@meta.data, file="codex.obj.meta.data.csv")
+
+#
+DotPlot(codex.obj, cols = c("lightgrey", "red"), features=rownames(codex.obj))
+VlnPlot(codex.obj, features=rownames(codex.obj))
+        
+
+
+#
+Idents(codex.obj) <- "cell.anno"
+scatterCellPlot(object = codex.obj)
+
+#作图
+
+clusterCornerAxes(object = codex.obj,
+                  reduction = 'umap',
+                  clusterCol = "cell.anno",
+                  noSplit = T,
+                  cellLabel = T,
+                  themebg = 'bwCorner',
+                  cornerTextSize = 3.5,
+                  cellLabelSize = 5)+  scale_color_manual(values = color.value.anno)
+#barplot
+b.data <- as.data.frame.array(table(g.data$cell.anno))
+b.data.1 <- cbind.data.frame(cell.id=rownames(b.data), cell.num=b.data$`table(g.data$cell.anno)`)
+b.data.1 <- b.data.1[order(b.data.1$cell.num, decreasing = F),]
+b.data.1$cell.ratio <- b.data.1$cell.num/sum(b.data.1$cell.num)
+b.data.1$cell.ratio_percent <- sprintf("%.2f%%", b.data.1$cell.ratio * 100)
+b.data.1$cell.id <- factor(b.data.1$cell.id, levels = b.data.1$cell.id)
+
+ggplot(b.data.1, aes(x = cell.num, y = cell.id, fill=cell.id), color="black") + 
+  geom_bar(stat = "identity")+
+  geom_text(aes(label = cell.ratio_percent, y = cell.id), hjust = 0)+
+  scale_fill_manual(values = color.value.anno)+
+  scale_x_continuous(limits = c(0, 120000),
+                     breaks = c(0, 10000, 20000, 55000),
+                     labels = c("0", "10,000", "20,000", "90,000"), 
+                     sec.axis = sec_axis(~ . * 4, breaks = 35000, name = ""))+
+  theme_classic()
+
+
+p <- ggplot(b.data.1, aes(x = cell.num, y = cell.id, fill = cell.id)) +
+  geom_bar(stat = "identity", color = "black") +
+  geom_text(aes(label = cell.ratio_percent, y = cell.id), hjust = 0) +
+  scale_fill_manual(values = color.value.anno) +
+  scale_x_continuous(limits = c(0, 115000),  # Adjust this to the desired maximum visible value
+                     breaks = c(0, 10000, 20000, 100000),
+                     labels = c("0", "10,000", "20,000", "100000"),
+                     sec.axis = sec_axis(~ . * 4, breaks = 35000, name = "")) +
+  theme_classic()
+#cell.num.sum.barplot.pdf
+print(p)
+
+#
+
+
+markerVocalno(markers = VariableFeatures(codex.obj),
+              topn = 5,
+              labelCol = ggsci::pal_npg()(9))
+# plot
+AverageHeatmap(object = codex.obj,
+               markerGene = VariableFeatures(codex.obj), cluster_columns = T, cluster_rows = T)
+
+#
+jjDotPlot(object = codex.obj, id = 'cell.anno', 
+          gene = VariableFeatures(codex.obj), xtree = T,
+          rescale = T,
+          dot.col = c('#0099CC','white','#CC0033'),
+          rescale.min = -1,
+          rescale.max = 3,
+          midpoint = 0)

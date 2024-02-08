@@ -1,0 +1,26 @@
+{
+    "id": "9B6B8274",
+    "path": "/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/Rcode/EV_spatalk_demo_V1.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1707347007237.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "20,0",
+        "scrollLine": "12"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1707333128,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1707333128,
+    "read_only": false,
+    "read_only_alternatives": []
+}

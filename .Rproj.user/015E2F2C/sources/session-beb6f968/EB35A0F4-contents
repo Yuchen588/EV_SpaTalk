@@ -1,0 +1,8 @@
+
+library(usethis)
+library(Seurat)
+usethis::create_package("/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/Rpackage/EVSpaTalk")
+renv::init()
+
+
+use_github()

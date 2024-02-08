@@ -1,0 +1,35 @@
+Package: EVSpaTalk
+Title: An EV-mediated cell-cell interaction inference framework from spatially resolved transcriptomic data
+Version: 0.0.0.9000
+Authors@R: 
+    person("Yuchen", "Li", , "ycli16@stanford.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Extracellular vesicles (EVs), produced by all eukaryotic cells, are essential for intercellular communication. Beyond transporting internal cargo, EVs transfer specific ligands from donor to receptors on recipient cells, playing a crucial role in orchestrating intercellular dynamics and modulating the biological landscape of human ecosystem. However, inferring EV-driven tissue-cellular interactome presents a challenge. To address this, we introduce EV_SpaTalk, an innovative framework designed to infer the significance of ligand-receptor pairs in EV-mediated cell-cell crosstalk networks within tumor microenvironments. This framework relies on EV budding power, a key cellular state in ESCRT+ cells, and the spatial interoperable extrapolation of EV-specific ligand-receptor pairs. EV_SpaTalk models the ligand-receptor signaling network between spatially adjacent sender-receiver niches, utilizing a non-negative linear model and spatial distance mapping to decompose cell components from spatially resolved transcriptomics (ST) and paired single-cell RNA-seq data. This framework efficiently deciphers EV-driven ligand-receptor interactions across various cell types, offering an invaluable tool for researchers to investigate intricate EV-mediated spatial cell dynamics in tissue, thereby significantly enhancing our understanding of EVs' roles in cellular communication and tumor biology.
+License: GPL (>= 2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports:
+    Seurat,
+    tidyverse,
+    future,
+    nnls,
+    parallel,
+    Matrix,
+    parallel,
+    Matrix,
+    VennDiagram,
+    ggplot2,
+    rstatix,
+    dplyr,
+    tidyr,
+    purrr,
+    broom,
+    RobustRankAggreg,
+    gridExtra,
+    circlize
+
+
+
+
+
