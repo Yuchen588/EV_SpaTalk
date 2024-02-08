@@ -14,7 +14,6 @@ st_deco_anno <- function(st = st.data, sc = sc.data, EV_spatalk_object=EV_spatal
   EV_spatalk_object@all.cell.type <- select.celltype
   modules <- EV_spatalk_object@modules#
   ma <- names(modules)
-
   print(ma)
   st@assays$SCT <- NULL
   st@assays$Spatial <- NULL
