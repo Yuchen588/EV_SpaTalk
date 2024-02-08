@@ -2,7 +2,7 @@
 #'
 #' Identify the cellular composition for single-cell or spot-based spatial transcriptomics data with non-negative regression.
 #'
-#' @param EV_spatalk_object EV_spatalk_object An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.
+#' @param EV_spatalk_object An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.
 #' @param sc.anno.id A character containing the cell type of the reference single-cell RNA-seq data.
 #' @return An updated EV_spatalk_object containing the results of the decomposition analysis, including cell type distributions and spatial distances between identified cell types.
 #' @examples
