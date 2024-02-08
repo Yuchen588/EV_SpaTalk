@@ -2,11 +2,11 @@
 % Please edit documentation in R/functions_main.R
 \name{st_deco_anno}
 \alias{st_deco_anno}
-\title{Decompose Cell Types in Spatial Transcriptomics Data}
+\title{Decompose cell types in spatial transcriptomics data}
 \usage{
 st_deco_anno(
-  st = st,
-  sc = sc,
+  st = st.data,
+  sc = sc.data,
   EV_spatalk_object = EV_spatalk_object,
   nrand = 2,
   nbin = 5,
@@ -20,9 +20,11 @@ st_deco_anno(
 )
 }
 \arguments{
-\item{EV_spatalk_object}{EV_spatalk_object An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.}
+\item{EV_spatalk_object}{An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.}
 
 \item{sc.anno.id}{A character containing the cell type of the reference single-cell RNA-seq data.}
+
+\item{select.celltype}{A character the all selected cell types for ST spot deconvolution.}
 }
 \value{
 An updated EV_spatalk_object containing the results of the decomposition analysis, including cell type distributions and spatial distances between identified cell types.

@@ -1,13 +1,15 @@
-#' Decompose Cell Types in Spatial Transcriptomics Data
+#' Decompose cell types in spatial transcriptomics data
 #'
 #' Identify the cellular composition for single-cell or spot-based spatial transcriptomics data with non-negative regression.
 #'
 #' @param EV_spatalk_object An S4 object reconstructed for EV_SpaTalk. This object must correctly include both spatial transcriptomics (st) and single-cell RNA-seq (sc) data entries.
 #' @param sc.anno.id A character containing the cell type of the reference single-cell RNA-seq data.
+#' @param select.celltype A character the all selected cell types for ST spot deconvolution.
 #' @return An updated EV_spatalk_object containing the results of the decomposition analysis, including cell type distributions and spatial distances between identified cell types.
+#' @export
 #' @examples
 #' EV.spatalk.results <- st_deco_anno(st = st, sc = sc, nrand = 2, EV_spatalk_object=EV_spatalk_object, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype)
-st_deco_anno <- function(st = st, sc = sc, EV_spatalk_object=EV_spatalk_object, nrand = 2, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype, pred_bin_cutoff=0.9, coef_bin_cutoff=2){
+st_deco_anno <- function(st = st.data, sc = sc.data, EV_spatalk_object=EV_spatalk_object, nrand = 2, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype, pred_bin_cutoff=0.9, coef_bin_cutoff=2){
   ncores = mc.cores
   EV_spatalk_object@all.cell.type <- select.celltype
   modules <- EV_spatalk_object@modules#
@@ -326,16 +328,20 @@ st_deco_anno <- function(st = st, sc = sc, EV_spatalk_object=EV_spatalk_object, 
 }
 
 
-#' find near niche from ST data
+#' Screening the sender-receiver niche and ligand-receptor interactome
 #'
-#' This function takes two numbers and returns their sum.
+#' This function identifies the spatially nearest sender-receiver niche for EV-mediated cell-cell interactions. It composes EV-related ligand-receptor (LR) pairs and analyzes their patterns based on spatial proximity.
 #'
-#' @param EV_spatalk_object the EV_SpaTalk S4 object.
-#' @param sc.anno.id the character of cell type annotation in paired scRNA-seq data.
-#' @return EV_spatalk_object
-#' @examples
-#' add(1, 1)
+#' @param EV_spatalk_object An S4 object reconstructed for EV_SpaTalk, which should include both spatial transcriptomics data and the reference single-cell RNA-seq data.
+#' @param prox The pattern to identify the spatial distance. "inverse" indicates that the closer the distance, the greater the value is considered in the interaction strength.
+#' @param s.cell.type A character vector specifying the sender (first cell type) and the receiver (second cell type) in the interaction.
+#' @param comm_list The list of ligand-receptor groups used for identifying EV-mediated interactomes.
+#' @param datatype The type of data to use for calculating the intensity of LR interactions, defaulting to the 'data' slot from SCTransform normalization.
+#' @param method The method used to determine the strength of each LR interaction. The default "pseudocount" method involves a log transformation after summing the values of ligand and receptor.
+#' @return An updated EV_spatalk_ object with niche identifier and all LR interaction results.
 #' @export
+#' @examples
+#' EV.spatalk.results <- find_niche_LR(EV_spatalk_object=EV.spatalk.results, prox="inverse", mc.cores=30, s.cell.type = c("Malignant", "T_cells"), comm_list=comm_list, datatype='mean count', method = "pseudocount")
 find_niche_LR <- function(EV_spatalk_object=EV.spatalk.results, prox="inverse", mc.cores=30, s.cell.type = c("Malignant", "T_cells"), comm_list=comm_list, datatype='mean count', method="pseudocount"){
   numCores = mc.cores
   st <- EV_spatalk_object@st.seurat.obj
@@ -473,9 +479,16 @@ find_niche_LR <- function(EV_spatalk_object=EV.spatalk.results, prox="inverse", 
   return(EV_spatalk_object)
 }
 
-
-
-#是求所有spot中存在都存在的LR作用
+#' Identify overlapping LR interactomes across niches
+#'
+#' Analyzes the frequency of ligand-receptor (LR) pairs enriched in spatially adjacent spots to identify those that are consistently present across different niches. This function facilitates the parallel analysis of LR interactomes and their interaction intensities.
+#'
+#' @param EV_spatalk_object An updated S4 object that has been prepared for EV_SpaTalk analysis.
+#' @param mc.cores The number of cores to use for parallel computation. Adjust according to your server's capabilities; use 1 for a single-core PC.
+#' @return Returns the EV_spatalk_object updated with identified overlapping LR pairs and their interaction intensities across all examined niches.
+#' @export
+#' @examples
+#' EV.spatalk.results <- find.inter.LR(EV_spatalk_object=EV.spatalk.results, mc.cores=30)
 find.inter.LR <- function(EV_spatalk_object=EV.spatalk.results, mc.cores=30){
   s.cell.type <- EV_spatalk_object@s.cell.type
   sender.receiver.bi.res <- EV_spatalk_object@st.seurat.obj@meta.data[,c(paste(s.cell.type, "_bin", sep = ""))]
@@ -519,8 +532,16 @@ find.inter.LR <- function(EV_spatalk_object=EV.spatalk.results, mc.cores=30){
   return(EV_spatalk_object)
 }
 
-#
-
+#' Statistical analysis of LR pairs for EV secretion and spatial distance.
+#'
+#' This function employs the Robust Rank Aggregation (RRA) algorithm to assess the enrichment significance of ligand-receptor (LR) pairs. It also identifies LR pairs that significantly correlate with the EV release capacity of the sender cell and the spatial proximity between sender and receiver cell niches.
+#'
+#' @param EV_spatalk_object An updated S4 object that has been prepared for EV_SpaTalk analysis.
+#' @param mc.cores The number of cores to utilize for parallel processing. This should be adjusted according to the capabilities of your computational environment; set to 1 for single-core machines.
+#' @return An updated EV_spatalk_object including the significance analysis of all LR pairs, with additional annotations for their relevance to EV release and spatial distance correlation.
+#' @export
+#' @examples
+#' EV.spatalk.results <- find_EV_spatalk_LR(EV_spatalk_object=EV.spatalk.results, mc.cores=30, seeds = 1)
 find_EV_spatalk_LR <- function(EV_spatalk_object=EV.spatalk.results, mc.cores=30, seeds=1){
   #lr_interaction_list <- EV.spatalk.results@sender.spot.lr_interaction
   #sender.cell.id <- EV.spatalk.results@Sender.spot.id
@@ -682,8 +703,16 @@ find_EV_spatalk_LR <- function(EV_spatalk_object=EV.spatalk.results, mc.cores=30
   return(EV_spatalk_object)
 }
 
-#
-
+#' Normalize and integrate interaction intensity of LR pairs
+#'
+#' Applies Min-Max normalization to the interaction intensity of each ligand-receptor (LR) pair, scaling the range to 0-1. Integrates the normalized results into the spatial transcriptomics (ST) Seurat object contained within the EV_spatalk_object.
+#'
+#' @param EV_spatalk_object An updated S4 object that has been prepared for EV_SpaTalk analysis.
+#' @param mc.cores The number of cores to utilize for parallel processing. This should be adjusted according to the capabilities of your computational environment; set to 1 for single-core machines.
+#' @return The EV_spatalk_object with added normalized interaction intensity scores for all LR pairs, incorporated into the metadata of the ST Seurat object.
+#' @export
+#' @examples
+#' EV.spatalk.results <- add_interaction_score(EV_spatalk_object = EV.spatalk.results, mc.cores=30)
 add_interaction_score <- function(EV_spatalk_object=EV.spatalk.results, mc.cores=30){
   #选择一个LR，可视化展示
   #例如"CD86_CTLA4"

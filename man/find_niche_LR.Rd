@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_main.R
 \name{find_niche_LR}
 \alias{find_niche_LR}
-\title{find near niche from ST data}
+\title{Screening the sender-receiver niche and ligand-receptor interactome}
 \usage{
 find_niche_LR(
   EV_spatalk_object = EV.spatalk.results,
@@ -15,16 +15,24 @@ find_niche_LR(
 )
 }
 \arguments{
-\item{EV_spatalk_object}{the EV_SpaTalk S4 object.}
+\item{EV_spatalk_object}{An S4 object reconstructed for EV_SpaTalk, which should include both spatial transcriptomics data and the reference single-cell RNA-seq data.}
 
-\item{sc.anno.id}{the character of cell type annotation in paired scRNA-seq data.}
+\item{prox}{The pattern to identify the spatial distance. "inverse" indicates that the closer the distance, the greater the value is considered in the interaction strength.}
+
+\item{s.cell.type}{A character vector specifying the sender (first cell type) and the receiver (second cell type) in the interaction.}
+
+\item{comm_list}{The list of ligand-receptor groups used for identifying EV-mediated interactomes.}
+
+\item{datatype}{The type of data to use for calculating the intensity of LR interactions, defaulting to the 'data' slot from SCTransform normalization.}
+
+\item{method}{The method used to determine the strength of each LR interaction. The default "pseudocount" method involves a log transformation after summing the values of ligand and receptor.}
 }
 \value{
-EV_spatalk_object
+An updated EV_spatalk_ object with niche identifier and all LR interaction results.
 }
 \description{
-This function takes two numbers and returns their sum.
+This function identifies the spatially nearest sender-receiver niche for EV-mediated cell-cell interactions. It composes EV-related ligand-receptor (LR) pairs and analyzes their patterns based on spatial proximity.
 }
 \examples{
-add(1, 1)
+EV.spatalk.results <- find_niche_LR(EV_spatalk_object=EV.spatalk.results, prox="inverse", mc.cores=30, s.cell.type = c("Malignant", "T_cells"), comm_list=comm_list, datatype='mean count', method = "pseudocount")
 }
