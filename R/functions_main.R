@@ -4,24 +4,6 @@
 #' @examples
 #' create_EV.SpaTalk.obj()
 create_EV.SpaTalk.obj <- function() {
-  # 加载所需的包
-  library(Seurat)
-  library(tidyverse)
-  library(future)
-  library(nnls)
-  library(parallel)
-  library(Matrix)
-  library(VennDiagram)
-  library(ggplot2)
-  library(rstatix)
-  library(dplyr)
-  library(tidyr)
-  library(purrr)
-  library(broom)
-  library(RobustRankAggreg)
-  library(gridExtra)
-  library(circlize)
-
   # 定义 EV_spatalk 类
   setClass("EV_spatalk",
            slots = c(database = "data.frame",

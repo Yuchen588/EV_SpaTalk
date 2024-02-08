@@ -225,6 +225,24 @@ library(EVSpaTalk)
 remove.packages("EVSpaTalk")
 
 #读取R包
+# 加载所需的包
+library(Seurat)
+library(tidyverse)
+library(future)
+library(nnls)
+library(parallel)
+library(Matrix)
+library(VennDiagram)
+library(ggplot2)
+library(rstatix)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(broom)
+library(RobustRankAggreg)
+library(gridExtra)
+library(circlize)
+#创建create_EV.SpaTalk.obj对象
 create_EV.SpaTalk.obj()
 
 EV_spatalk_object <- readRDS(file = "/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/source.data/EV_spatalk_object.rds")
