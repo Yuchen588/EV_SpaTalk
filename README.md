@@ -68,9 +68,11 @@ The EV_SpaTalkdb is a curated database containing 2,997 EV-specific ligand-recep
 
 # Usage and steps:
 EV_spatalk method consists of two components, wherein the first is to use the scRNA-seq profile dissect the cell-type composition of ST data and the second is to infer the spatially resolved EV-mediated cell-cell communications over the decomposed single-cell ST data. Classification and description of EV_spatalk functions are shown in the [tutorial](https://evpedia.info/evpedia2_xe/).
-- ### Load the demo EV_SpaTalk S4 object
+- ### Load the demo EV_SpaTalk S4 object and source code
 ```
 > EV_spatalk_object <- readRDS(file = "/path/to/EV_spatalk_object.rds")
+> source("/path/to/functions_public.R")
+> source("/path/to/functions_main.R")
 ```
 - ### Cell-type deconvolution to reconstruct single-cell ST atlas with known cell types from scRNA-seq data
 ```
