@@ -246,7 +246,40 @@ library(circlize)
 if ("EV_spatalk" %in% getClassDef()) {
   removeClass("EV_spatalk")
 }
-create_EV.SpaTalk.obj()
+
+
+setClass("EV_spatalk",
+         slots = c(database = "data.frame",
+                   all.cell.type = "character",
+                   s.cell.type = "character",
+                   Sender.celltype.id = "character",
+                   Receiver.celltype.id = "character",
+                   Sender.spot.id = "character",
+                   Receiver.spot.id = "character",
+                   Distance.corr.LR.results = "data.frame",
+                   EVrelease.corr.LR.results = "data.frame",
+                   inter.LR.results = "list",
+                   all.can.LR.id="character",
+                   st.seurat.obj = "Seurat",
+                   sc.seurat.obj = "Seurat",
+                   all.spot.module.score = "data.frame",
+                   distance.results = "data.frame",
+                   neighborhood.results = "list",
+                   metadata = "data.frame",
+                   interaction_df = "data.frame",
+                   interaction_df_raw.indensity = "data.frame",
+                   modules="array",
+                   db_mac="list",
+                   db_tcell="list",
+                   nnls_bin="character",
+                   nearest.spot.list = "list",
+                   all.nitch.LR.talk.list="list",
+                   all.spot.lr_interaction="list",
+                   sender.spot.lr_interaction="list",
+                   spot.LR.freq.results="data.frame",
+                   LR.in.spot.frequency_table="data.frame",
+                   LR.in.spot.RRA.results="data.frame",
+                   EV_spatalk_stat_results="data.frame"))
 
 EV_spatalk_object <- readRDS(file = "/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/source.data/EV_spatalk_object.rds")
 st <- readRDS("/home/lyc/sc/3CA/rawdata/meta.program/tumor/NG_pancaner_ST/Analysis/EV-spatalk/EV_spatalk_demo/rawdata/st.rds")
@@ -256,6 +289,13 @@ cell.types <- unique(sc$pop)
 select.celltype <- cell.types
 print(cell.types)
 
+#nrand = 2
+#nbin = 5
+#pval_thresh=0.05
+#mc.cores=30
+#sc.anno.id="pop"
+#set.seeds = 1
+select.celltype = select.celltype
 #main process
 EV.spatalk.results <- st_deco_anno(st = st, sc = sc, nrand = 2, EV_spatalk_object=EV_spatalk_object, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype)
 #

@@ -1,4 +1,22 @@
 # 定义 EV_spatalk 类
+library(Seurat)
+library(tidyverse)
+library(future)
+library(nnls)
+library(parallel)
+library(Matrix)
+library(VennDiagram)
+library(ggplot2)
+library(rstatix)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(broom)
+library(RobustRankAggreg)
+library(gridExtra)
+library(circlize)
+
+
 setClass("EV_spatalk",
          slots = c(database = "data.frame",
                    all.cell.type = "character",
