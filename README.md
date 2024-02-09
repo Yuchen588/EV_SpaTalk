@@ -71,8 +71,8 @@ EV_spatalk method consists of two components, wherein the first is to use the sc
 - ### Load the demo EV_SpaTalk S4 object and source code
 ```
 > EV_spatalk_object <- readRDS(file = "/path/to/EV_spatalk_object.rds")
-> source("/path/to/functions_public.R");[functions_public.R](https://github.com/Yuchen588/EV_SpaTalk/blob/master/source%20code/functions_public.R)
-> source("/path/to/functions_main.R");[functions_main.R](https://github.com/Yuchen588/EV_SpaTalk/blob/master/source%20code/functions_main.R)
+> source("/path/to/functions_public.R")
+> source("/path/to/functions_main.R")
 ```
 - ### Cell-type deconvolution to reconstruct single-cell ST atlas with known cell types from scRNA-seq data
 ```
