@@ -3,13 +3,8 @@
 #' Make equivalent random modules
 #'
 #' @export
-MakeRand = function(
-    srt=ST.data.mscore,
-    db=modules,
-    assay = NULL,
-    nrand = 3,
-    nbin = 5
-){
+MakeRand = function(srt=ST.data.mscore, db=modules, assay = NULL, nrand = 3, nbin = 5)
+  {
   if (is.null(assay)){
     assay = DefaultAssay(srt)
   }
