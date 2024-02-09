@@ -10,11 +10,12 @@
 #' @export
 #' @examples
 #' EV.spatalk.results <- st_deco_anno(st = st, sc = sc, nrand = 2, EV_spatalk_object=EV_spatalk_object, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype)
-st_deco_anno <- function(st = st.data, sc = sc.data, EV_spatalk_object=EV_spatalk_object, nrand = 2, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype, pred_bin_cutoff=0.9, coef_bin_cutoff=2){
+st_deco_anno <- function(st = st, sc = sc, EV_spatalk_object=EV_spatalk_object, nrand = 2, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype, pred_bin_cutoff=0.9, coef_bin_cutoff=2){
   ncores = mc.cores
   EV_spatalk_object@all.cell.type <- select.celltype
   modules <- EV_spatalk_object@modules#
   ma <- names(modules)
+
   print(ma)
   st@assays$SCT <- NULL
   st@assays$Spatial <- NULL
@@ -53,42 +54,10 @@ st_deco_anno <- function(st = st.data, sc = sc.data, EV_spatalk_object=EV_spatal
 
   ST.data.mscore <- ST.data
   #这里计算module score
-  options(Seurat.object.assay.version = 'v5')
-  DefaultAssay(ST.data.mscore) <- "SCT"
+  #options(Seurat.object.assay.version = 'v4')
 
-  #增加function
-  MakeRand = function(srt, db, assay = "SCT", nrand = 3, nbin = 5)
-  {
-    #if (is.null(assay)){
-    #  assay = DefaultAssay(srt)
-    #}
-    #data = GetData(srt, slot = 'data')
-
-    data = GetAssayData(srt, layer = "data")#change to V5 seurat get data
-    db = lapply(db, intersect, rownames(data))
-    data.avg = sort(rowMeans(x = data))
-    data.cut = cut_number(x = data.avg + rnorm(n = length(data.avg))/1e+30,
-                          n = nbin, labels = FALSE, right = FALSE)
-    names(x = data.cut) = names(x = data.avg)
-    binned = split(names(data.cut), data.cut)
-    db_rand = lapply(names(db), function(m){
-      lapply(1:10^nrand, function(i){
-        used = vector()
-        unused = binned
-        for (g in db[[m]]){
-          pool = data.cut[g]
-          new = sample(unused[[pool]], 1)
-          used = c(used, new)
-          unused[[pool]] = setdiff(unused[[pool]], new)
-        }
-        return(used)
-      })
-    })
-    names(db_rand) = names(db)
-    return(db_rand)
-  }
-
-  modules_rand = MakeRand(srt=ST.data.mscore, db = modules, nrand = nrand, nbin = nbin, assay = "SCT")
+  set.seed(set.seeds)
+  modules_rand = MakeRand(ST.data.mscore, db = modules, nrand = nrand, nbin = nbin)
   ini = matrix(0,nrow = ncol(ST.data.mscore), ncol = length(modules))
   rownames(ini) = colnames(ST.data.mscore)
   colnames(ini) = names(modules)

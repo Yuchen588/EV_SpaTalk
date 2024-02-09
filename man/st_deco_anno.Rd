@@ -5,8 +5,8 @@
 \title{Decompose cell types in spatial transcriptomics data}
 \usage{
 st_deco_anno(
-  st = st.data,
-  sc = sc.data,
+  st = st,
+  sc = sc,
   EV_spatalk_object = EV_spatalk_object,
   nrand = 2,
   nbin = 5,
