@@ -10,7 +10,7 @@ MakeRand = function(srt, db, assay = "SCT", nrand = 3, nbin = 5)
   #}
   #data = GetData(srt, slot = 'data')
 
-  data = GetAssayData(srt, assay = assay, layer = "data")#change to V5 seurat get data
+  data = GetAssayData(srt, layer = "data")#change to V5 seurat get data
   db = lapply(db, intersect, rownames(data))
   data.avg = sort(rowMeans(x = data))
   data.cut = cut_number(x = data.avg + rnorm(n = length(data.avg))/1e+30,
