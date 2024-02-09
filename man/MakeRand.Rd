@@ -4,7 +4,7 @@
 \alias{MakeRand}
 \title{Make equivalent random modules}
 \usage{
-MakeRand(srt = ST.data.mscore, db = modules, assay = NULL, nrand = 3, nbin = 5)
+MakeRand(srt, db, assay = "SCT", nrand = 3, nbin = 5)
 }
 \description{
 Make equivalent random modules

@@ -3,11 +3,11 @@
 #' Make equivalent random modules
 #'
 #' @export
-MakeRand = function(srt=ST.data.mscore, db=modules, assay = NULL, nrand = 3, nbin = 5)
+MakeRand = function(srt, db, assay = "SCT", nrand = 3, nbin = 5)
   {
-  if (is.null(assay)){
-    assay = DefaultAssay(srt)
-  }
+  #if (is.null(assay)){
+  #  assay = DefaultAssay(srt)
+  #}
   #data = GetData(srt, slot = 'data')
 
   data = GetAssayData(srt, assay = assay, layer = "data")#change to V5 seurat get data
