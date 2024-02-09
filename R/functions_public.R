@@ -4,8 +4,8 @@
 #'
 #' @export
 MakeRand = function(
-    srt,
-    db,
+    srt=ST.data.mscore,
+    db=modules,
     assay = NULL,
     nrand = 3,
     nbin = 5

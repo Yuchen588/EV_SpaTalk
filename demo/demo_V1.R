@@ -289,24 +289,24 @@ cell.types <- unique(sc$pop)
 select.celltype <- cell.types
 print(cell.types)
 
-#nrand = 2
-#nbin = 5
-#pval_thresh=0.05
-#mc.cores=30
-#sc.anno.id="pop"
-#set.seeds = 1
+nrand = 2
+nbin = 5
+pval_thresh=0.05
+mc.cores=30
+sc.anno.id="pop"
+set.seeds = 1
 select.celltype = select.celltype
-#main process
+#1
 EV.spatalk.results <- st_deco_anno(st = st, sc = sc, nrand = 2, EV_spatalk_object=EV_spatalk_object, nbin = 5, pval_thresh=0.05, mc.cores=30, sc.anno.id="pop", set.seeds = 1, select.celltype = select.celltype)
-#
+#2
 s.cell.type <- c("Malignant", "T_cells")
 mc.cores=30
 comm_list= c("Cell-Cell Contact", "ECM-Receptor", "Secreted Signaling")
 datatype='mean count'
 EV.spatalk.results <- find_niche_LR(EV_spatalk_object=EV.spatalk.results, prox="inverse", mc.cores=30, s.cell.type = c("Malignant", "T_cells"), comm_list=comm_list, datatype='mean count', method = "pseudocount")
-#
+#3
 EV.spatalk.results <- find.inter.LR(EV_spatalk_object=EV.spatalk.results, mc.cores=30)
-#
+#4
 EV.spatalk.results <- find_EV_spatalk_LR(EV_spatalk_object=EV.spatalk.results, mc.cores=30, seeds = 1)
-#
+#5
 EV.spatalk.results <- add_interaction_score(EV_spatalk_object = EV.spatalk.results, mc.cores=30)
