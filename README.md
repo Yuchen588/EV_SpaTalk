@@ -88,7 +88,7 @@ EV_spatalk method consists of two components, wherein the first is to use the sc
 
 - ### Screening for spatially approximate sender-receiver niche and ligand-receptor interaction densities
 ```
-# s.cell.type: the vector of celltype ids 
+# s.cell.type: A vector containing pairs of sender and receiver IDs. Please ensure that the sender is listed first, followed by the receiver.
 # comm_list= c("Cell-Cell Contact", "ECM-Receptor", "Secreted Signaling")
 
 > EV.spatalk.results <- find_niche_LR(EV_spatalk_object=EV.spatalk.results, prox="inverse", mc.cores=30, s.cell.type = c("Malignant", "T_cells"), comm_list=comm_list, datatype='mean count', method = "pseudocount")
