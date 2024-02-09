@@ -1,8 +1,7 @@
 #EV_spatalk other functions
 
-#' Make equivalent random modules
-#'
-#' @export
+
+# Make equivalent random modules
 MakeRand = function(
     srt=ST.data.mscore,
     db=modules,
@@ -39,9 +38,10 @@ MakeRand = function(
   return(db_rand)
 }
 
-#' Modules to cells
-#'
-#' @keywords internal
+
+
+
+# Modules to cells
 GeneToEnrichment = function(
     srt,
     type = 'GO',
@@ -166,9 +166,8 @@ GeneToEnrichment = function(
 }
 
 
-#' Find neighbors
-#'
-#' @export
+##
+#
 
 FindSTNeighbors = function(
     st,
@@ -188,9 +187,6 @@ FindSTNeighbors = function(
   return(neighbors)
 }
 
-#' ST random and scale
-#'
-#' @export
 MakeSTRand = function(
     st
 ){
@@ -203,9 +199,7 @@ MakeSTRand = function(
   st = ScaleData(st, assay = 'SCT', do.center = TRUE, do.scale = FALSE)
 }
 
-#' Screen EV-mediate interactome
-#'
-#' @export
+#EV mediate ccc
 rawParse2 <- function(data, top_genes = 50, stats = "mean")
 {
   res = NULL
@@ -240,9 +234,10 @@ rawParse2 <- function(data, top_genes = 50, stats = "mean")
 }
 
 
-#' Find LR recurrented in sender spot
-#'
-#' @export
+
+
+#find LR
+
 FindLR2 <- function(data_1, data_2 = NULL, datatype, comm_type, database = NULL)
 {
   if (is.null(database)) {
@@ -338,9 +333,7 @@ FindLR2 <- function(data_1, data_2 = NULL, datatype, comm_type, database = NULL)
 }
 
 
-#' Calculate LR mean multiply
-#'
-#' @export
+#
 get_lr_multiply <- function(lr, lr_list) {
   sapply(lr_list, function(df) {
     if (any(df$interaction == lr)) {
@@ -351,9 +344,7 @@ get_lr_multiply <- function(lr, lr_list) {
   })
 }
 
-#' Calculate LR pseudo_count
-#'
-#' @export
+
 calculate_interaction_strength <- function(L, R, pseudo_count = 0.01) {
   # 保证log2转换后不会出现负数
   pseudo_count_adjusted <- max(pseudo_count, 1)
@@ -361,10 +352,8 @@ calculate_interaction_strength <- function(L, R, pseudo_count = 0.01) {
   return(interaction_strength)
 }
 
+
 #这步function可以放在functions_public.R
-#' Include the non-zero LR
-#'
-#' @export
 increment_frequency <- function(df, frequencies) {
   # Find the unique interactions with non-zero 'multiply' values
   unique_interactions <- unique(df$interaction[df$multiply > 0])
@@ -375,9 +364,8 @@ increment_frequency <- function(df, frequencies) {
   return(frequencies)
 }
 
-#' Storage the LR interaction score
-#'
-#' @export
+
+###
 process_spot <- function(spot_id, lr_list, lr_ids) {
   spot_vector <- numeric(length(lr_ids)) # 初始化一个向量来存储multiply值
   names(spot_vector) <- lr_ids
@@ -394,9 +382,7 @@ process_spot <- function(spot_id, lr_list, lr_ids) {
 
 
 #作图
-#' Spatial indensity_plot
-#'
-#' @export
+
 LR_spatial_indensity_plot <- function(EV_spatalk_object, s.LR.pair) {
   # 将特征字符串分割为配体和受体
   st.seurat.obj <- EV_spatalk_object@st.seurat.obj
@@ -432,9 +418,10 @@ LR_spatial_indensity_plot <- function(EV_spatalk_object, s.LR.pair) {
   return(p)
 }
 
-#' Pie plot of the statistical results of EV-release related or distance related LRs
-#'
-#' @export
+
+
+
+#饼图展示
 LR_pie.plot <- function(EV_spatalk_object=EV.spatalk.results){
   distance.correlation_results_df <- EV.spatalk.results@Distance.corr.LR.results
   EVrelease.correlation_results_df <- EV.spatalk.results@EVrelease.corr.LR.results
@@ -478,9 +465,7 @@ LR_pie.plot <- function(EV_spatalk_object=EV.spatalk.results){
 }
 
 #venn plot
-#' Venn plot of the LRs overlapping
-#'
-#' @export
+
 LR_venn.plot <- function(EV_spatalk_object=EV.spatalk.results){
   distance.correlation_results_df <- EV.spatalk.results@Distance.corr.LR.results
   EVrelease.correlation_results_df <- EV.spatalk.results@EVrelease.corr.LR.results
@@ -525,11 +510,12 @@ LR_venn.plot <- function(EV_spatalk_object=EV.spatalk.results){
 }
 
 #circlize
-#' circos plot of candidate LRs
-#'
-#' @export
+
+set.seed(2)
+#select.LR.id <- sample(LR.freq.res$LR, 90)
+#select.LR.id <- c(EV.spatalk.results@inter.LR.results$common_positive_LR, EV.spatalk.results@inter.LR.results$common_negative_LR)
 LR_circos.plot <- function(EV_spatalk_object=EV.spatalk.results, select.LR.id=select.LR.id, specific.LR.id="CD96_PVR"){
-  set.seed(2)
+
 LR.freq.res <- EV_spatalk_object@LR.in.spot.frequency_table
 LR.stat.res <- EV_spatalk_object@EV_spatalk_stat_results
 inter.LR.id <- intersect(LR.freq.res$LR, LR.stat.res$LR_pairs_ID)

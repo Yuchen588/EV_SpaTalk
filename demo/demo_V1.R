@@ -310,3 +310,17 @@ EV.spatalk.results <- find.inter.LR(EV_spatalk_object=EV.spatalk.results, mc.cor
 EV.spatalk.results <- find_EV_spatalk_LR(EV_spatalk_object=EV.spatalk.results, mc.cores=30, seeds = 1)
 #5
 EV.spatalk.results <- add_interaction_score(EV_spatalk_object = EV.spatalk.results, mc.cores=30)
+
+# Spatial intensity plot for each EV-mediated LR pair
+LR_spatial_indensity_plot(EV_spatalk_object=EV.spatalk.results, s.LR.pair="HLA-DPA1_CD4")
+
+# The pie plot to illustrate the significate of EV-related LR
+LR_pie.plot(EV_spatalk_object=EV.spatalk.results)
+
+# Venn diagram summarizing LRs correlated with EV release and spatial distance
+LR_venn.plot(EV_spatalk_object=EV.spatalk.results)
+
+# Circos plot representing statistical results of candidate LRs and their enrichment correlation in the EV interactome
+select.LR.id <- c(EV.spatalk.results@inter.LR.results$common_positive_LR, EV.spatalk.results@inter.LR.results$common_negative_LR)
+LR_circos.plot(EV_spatalk_object = EV.spatalk.results, select.LR.id=select.LR.id, specific.LR.id="CD96_PVR")
+circos.clear()
