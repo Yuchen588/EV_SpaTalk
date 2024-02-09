@@ -2,7 +2,7 @@
 
 #' Make equivalent random modules
 #'
-#' @export
+# @export
 MakeRand = function(srt, db, assay = "SCT", nrand = 3, nbin = 5)
   {
   #if (is.null(assay)){
