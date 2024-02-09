@@ -1,5 +1,7 @@
 #EV_spatalk other functions
 
+#' @importFrom Seurat GetAssayData
+
 #' Make equivalent random modules
 #'
 #' @export

@@ -54,7 +54,7 @@ st_deco_anno <- function(st = st, sc = sc, EV_spatalk_object=EV_spatalk_object, 
 
   ST.data.mscore <- ST.data
   #这里计算module score
-  #options(Seurat.object.assay.version = 'v4')
+  options(Seurat.object.assay.version = 'v5')
 
   set.seed(set.seeds)
   modules_rand = MakeRand(ST.data.mscore, db = modules, nrand = nrand, nbin = nbin)
